@@ -1,0 +1,85 @@
+@{
+    ViewData["Title"] = "Analysis Dashboard";
+}
+
+<div class="text-center">
+    <h1 class="display-4">eCFR Analysis Dashboard</h1>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="form-group">
+            <label for="agencySelect">Select an Agency:</label>
+            <select id="agencySelect" class="form-control">
+                <option value="">-- Please select an agency --</option>
+                @if (ViewBag.Agencies != null)
+                {
+                    foreach (var agency in ViewBag.Agencies)
+                    {
+                        <option value="@agency.Value">@agency.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="titleSelect">Select a CFR Title to Analyze:</label>
+            <select id="titleSelect" class="form-control">
+                <option value="">-- Please select a title --</option>
+                @if (ViewBag.Titles != null)
+                {
+                    foreach (var title in ViewBag.Titles)
+                    {
+                        <option value="@title.Value">@title.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <button id="analyzeBtn" class="btn btn-primary">Analyze</button>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-10 offset-md-1">
+        <h3>Analysis Results</h3>
+        <div id="resultsSpinner" style="display: none;">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div id="resultsError" class="alert alert-danger" style="display: none;"></div>
+        <table class="table table-bordered" id="resultsTable" style="display: none;">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Title Number</td>
+                    <td id="resTitleNum"></td>
+                </tr>
+                <tr>
+                    <td>Total Word Count</td>
+                    <td id="resWordCount"></td>
+                </tr>
+                <tr>
+                    <td>Corrective History</td>
+                    <td id="resCorrectiveHistory"></td>
+                </tr>
+                <tr>
+                    <td>Aggregate Checksum (SHA256)</td>
+                    <td id="resChecksum"></td>
+                </tr>
+                <tr>
+                    <td><strong>Regulatory Complexity Score</strong></td>
+                    <td id="resComplexity"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/home.js" asp-append-version="true"></script>
+}
